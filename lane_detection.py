@@ -11,6 +11,14 @@ def Canny(image):
     canny = cv2.Canny(blur, 50, 150)
     return canny
 
+def region_of_interest(image):
+    height = image.shape[0]
+    poly = np.array([[(200, height), (1100, height), (550, 250)]])
+    mask = np.zeros_like(image)
+    cv2.fillPoly(mask, poly, 255)
+    masked_image = cv2.bitwise_and(image, mask)
+    return masked_image
+
 #load the image
 image = cv2.imread('test_image.jpg')
 lane_image = np.copy(image)
@@ -18,5 +26,8 @@ lane_image = np.copy(image)
 #Perform Canny on the loaded image
 canny = Canny(lane_image)
 
-cv2.imshow('result', canny)
+#Bitwise conversion
+cropped_image = region_of_interest(canny)
+
+cv2.imshow('result', cropped_image)
 cv2.waitKey(0)
