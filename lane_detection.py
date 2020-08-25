@@ -59,3 +59,18 @@ combo_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1)
 cv2.imshow("Result", combo_image)
 cv2.waitKey(0)'''
 
+cap = cv2.VideoCapture('test2.mp4')
+while(cap.isOpened()):
+    _, frame = cap.read()
+    canny = Canny(frame)
+    cropped_image = region_of_interest(canny)
+    lines = cv2.HoughLinesP(cropped_image, 2, np.pi/180, 100, np.array([]), minLineLength=40, maxLineGap=5)
+    average_lines = average_slope_Intercept(frame, lines)
+    line_image = DisplayLines(frame, average_lines)
+    combo_image = cv2.addWeighted(frame, 0.8, line_image, 1, 1)
+    cv2.imshow("Result", combo_image)
+    if cv2.waitKey(1) == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
