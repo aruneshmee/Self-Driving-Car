@@ -19,6 +19,26 @@ def region_of_interest(image):
     masked_image = cv2.bitwise_and(image, mask)
     return masked_image
 
+def average_slope_Intercept(image, lines):
+    left_fit = []
+    right_fit = []
+    for line in lines:
+        x1, y1, x2, y2 = line.reshape(4)
+        parameters = np.polyfit((x1, x2), (y1, y2), 1)
+        slope = parameters[0]
+        intercept = parameters[1]
+        if slope < 0:
+            left_fit.append((slope, intercept))
+        else:
+            right_fit.append((slope, intercept))
+    left_fit_avg = np.average(left_fit, axis=0)
+    right_fit_avg = np.average(right_fit, axis=0)
+    #print(left_fit_avg)
+    #print(right_fit_avg)
+    left_line = make_coord(image, left_fit_avg)
+    right_line = make_coord(image, right_fit_avg)
+    return np.array([left_line, right_line])
+
 #load the image
 image = cv2.imread('test_image.jpg')
 lane_image = np.copy(image)
