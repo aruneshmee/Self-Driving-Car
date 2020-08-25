@@ -19,6 +19,14 @@ def region_of_interest(image):
     masked_image = cv2.bitwise_and(image, mask)
     return masked_image
 
+def DisplayLines(image, lines):
+    line_image = np.zeros_like(image)
+    if lines is not None:
+        for line in lines:
+            x1, y1, x2, y2 = line.reshape(4)
+            cv2.line(line_image, (x1,y1), (x2,y2), (255, 0, 0), 10)
+    return line_image
+
 def average_slope_Intercept(image, lines):
     left_fit = []
     right_fit = []
