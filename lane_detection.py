@@ -59,15 +59,3 @@ combo_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1)
 cv2.imshow("Result", combo_image)
 cv2.waitKey(0)'''
 
-#load the image
-image = cv2.imread('test_image.jpg')
-lane_image = np.copy(image)
-
-#Perform Canny on the loaded image
-canny = Canny(lane_image)
-
-#Bitwise conversion
-cropped_image = region_of_interest(canny)
-
-cv2.imshow('result', cropped_image)
-cv2.waitKey(0)
