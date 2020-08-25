@@ -39,6 +39,26 @@ def average_slope_Intercept(image, lines):
     right_line = make_coord(image, right_fit_avg)
     return np.array([left_line, right_line])
 
+def make_coord(image, line_parameters):
+    slope, intercept = line_parameters
+    y1 = image.shape[0]
+    y2 = int(y1 * (3/5))
+    x1 = int((y1 - intercept)/slope)
+    x2 = int((y2 - intercept)/slope)
+
+    return np.array([x1, y1, x2, y2])
+
+'''image = cv2.imread('test_image.jpg')
+lane_image = np.copy(image)
+canny = Canny(lane_image)
+cropped_image = region_of_interest(canny)
+lines = cv2.HoughLinesP(cropped_image, 2, np.pi/180, 100, np.array([]), minLineLength=40, maxLineGap=5)
+average_lines = average_slope_Intercept(lane_image, lines)
+line_image = DisplayLines(lane_image, average_lines)
+combo_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1)
+cv2.imshow("Result", combo_image)
+cv2.waitKey(0)'''
+
 #load the image
 image = cv2.imread('test_image.jpg')
 lane_image = np.copy(image)
