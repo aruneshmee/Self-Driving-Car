@@ -78,3 +78,19 @@ def load_steering(datadir, df):
   return image_paths, steerings
 
 image_paths, steerings = load_steering(datadir+'/IMG', data)
+
+X_train, X_valid, y_train, y_valid = train_test_split(image_paths, steerings, test_size=0.2, random_state=6)
+
+def img_preprocess(img):
+
+  img = mpimg.imread(img)
+  img = img[60:135, :, :]
+  img = cv2.cvtColor(img, cv2.COLOR_RGB2YUV)
+  img = cv2.GaussianBlur(img, (3, 3), 0)
+  img = cv2.resize(img, (200, 66))
+  img = img/255
+  
+  return img
+
+X_train = np.array(list(map(img_preprocess, X_train)))
+X_valid = np.array(list(map(img_preprocess, X_valid)))
