@@ -68,6 +68,7 @@ def load_steering(datadir, df):
 
   for i in range(len(data)):
     indexed_data = data.iloc[i]
+    # Looping through steering angles
     center, left, right = indexed_data[0], indexed_data[1], indexed_data[2]
 
     image_path.append(os.path.join(datadir, center.strip()))
